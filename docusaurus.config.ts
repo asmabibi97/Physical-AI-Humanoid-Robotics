@@ -85,7 +85,31 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Book',
+          label: 'Introduction',
+          to: '/docs/intro',
+        },
+        {
+          type: 'dropdown',
+          position: 'left',
+          label: 'Modules',
+          items: [
+            {
+              label: 'Module 1: ROS 2',
+              to: '/docs/module1/',
+            },
+            {
+              label: 'Module 2: Digital Twin',
+              to: '/docs/module2/',
+            },
+            {
+              label: 'Module 3: AI-Robot Brain',
+              to: '/docs/module3/',
+            },
+            {
+              label: 'Module 4: VLA (Coming Soon)',
+              to: '/docs/module4/',
+            },
+          ],
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
@@ -106,8 +130,20 @@ const config: Config = {
               to: '/docs/intro',
             },
             {
-              label: 'Module 3 - AI-Robot Brain',
+              label: 'Module 1: ROS 2',
+              to: '/docs/module1/',
+            },
+            {
+              label: 'Module 2: Digital Twin',
+              to: '/docs/module2/',
+            },
+            {
+              label: 'Module 3: AI-Robot Brain',
               to: '/docs/module3/',
+            },
+            {
+              label: 'Module 4: VLA',
+              to: '/docs/module4/',
             },
           ],
         },
