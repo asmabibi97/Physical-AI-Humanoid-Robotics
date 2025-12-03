@@ -15,14 +15,14 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://asmabibi97.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: '/Physical-AI-Humanoid-Robotics/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'gemini-cli-agent', // Usually your GitHub org/user name.
+  organizationName: 'asmabibi97', // Usually your GitHub org/user name.
   projectName: 'physical-ai-humanoid-robotics', // Usually your repo name.
 
   onBrokenLinks: 'throw',
@@ -44,7 +44,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/gemini-cli-agent/physical-ai-humanoid-robotics/tree/main/',
+            'https://github.com/asmabibi97/Physical-AI-Humanoid-Robotics/tree/main/',
         },
         blog: {
           showReadingTime: true,
@@ -55,7 +55,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/gemini-cli-agent/physical-ai-humanoid-robotics/tree/main/',
+            'https://github.com/asmabibi97/Physical-AI-Humanoid-Robotics/tree/main/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -89,7 +89,7 @@ const config: Config = {
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/gemini-cli-agent/physical-ai-humanoid-robotics',
+          href: 'https://github.com/asmabibi97/Physical-AI-Humanoid-Robotics',
           label: 'GitHub',
           position: 'right',
         },
@@ -133,7 +133,7 @@ const config: Config = {
             },
             {
               label: 'GitHub',
-              href: 'https://github.com/gemini-cli-agent/physical-ai-humanoid-robotics',
+              href: 'https://github.com/asmabibi97/Physical-AI-Humanoid-Robotics',
             },
           ],
         },
