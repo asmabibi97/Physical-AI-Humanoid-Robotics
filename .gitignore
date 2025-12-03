@@ -18,3 +18,15 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Node
+dist/
+*.log
+.env*
+
+# Universal
+Thumbs.db
+*.tmp
+*.swp
+.vscode/
+.idea/
