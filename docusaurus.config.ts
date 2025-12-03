@@ -15,15 +15,15 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://asmabibi97.github.io',
+  url: 'https://your-project-name.vercel.app',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/Physical-AI-Humanoid-Robotics/',
+  baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'asmabibi97', // Usually your GitHub org/user name.
-  projectName: 'physical-ai-humanoid-robotics', // Usually your repo name.
+  projectName: 'Physical-AI-Humanoid-Robotics', // Usually your repo name.
 
   onBrokenLinks: 'throw',
 
@@ -104,6 +104,10 @@ const config: Config = {
             {
               label: 'Introduction',
               to: '/docs/intro',
+            },
+            {
+              label: 'Module 3 - AI-Robot Brain',
+              to: '/docs/module3/',
             },
           ],
         },
