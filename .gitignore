@@ -1,5 +1,6 @@
 # Dependencies
 /node_modules
+backend/node_modules/
 
 # Production
 /build
@@ -7,6 +8,7 @@
 # Generated files
 .docusaurus
 .cache-loader
+contracts/
 
 # Misc
 .DS_Store
