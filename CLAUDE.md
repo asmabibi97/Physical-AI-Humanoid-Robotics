@@ -208,3 +208,10 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 
 ## Code Standards
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
+
+## Active Technologies
+- Python 3.11 + FastAPI, Qdrant Client, Google Generative AI, uvicorn (008-qdrant-book-ingestion)
+- Qdrant Cloud vector database (008-qdrant-book-ingestion)
+
+## Recent Changes
+- 008-qdrant-book-ingestion: Added Python 3.11 + FastAPI, Qdrant Client, Google Generative AI, uvicorn

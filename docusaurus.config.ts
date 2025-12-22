@@ -5,6 +5,25 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
+  plugins: [
+    // Plugin to inject the backend URL as a global variable
+    function() {
+      return {
+        name: 'inject-backend-url',
+        injectHtmlTags() {
+          const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://rag-chatbot-backend-production-83ba.up.railway.app';
+          return {
+            headTags: [
+              {
+                tagName: 'script',
+                innerHTML: `window.CHATBOT_BACKEND_URL = "${backendUrl}";`,
+              },
+            ],
+          };
+        },
+      };
+    },
+  ],
   title: 'Physical AI & Humanoid Robotics',
   tagline: 'From Digital Intelligence to Embodied Systems',
   favicon: 'img/favicon.ico',
@@ -112,6 +131,7 @@ const config: Config = {
           ],
         },
         {to: '/blog', label: 'Blog', position: 'left'},
+        {to: '/chatbot', label: 'Chatbot', position: 'left'},
         {
           href: 'https://github.com/asmabibi97/Physical-AI-Humanoid-Robotics',
           label: 'GitHub',
@@ -144,6 +164,10 @@ const config: Config = {
             {
               label: 'Module 4: VLA',
               to: '/docs/module4/',
+            },
+            {
+              label: 'Chatbot',
+              to: '/chatbot',
             },
           ],
         },
