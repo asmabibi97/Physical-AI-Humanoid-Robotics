@@ -1,0 +1,203 @@
+# OpenAPI Contract for Qdrant Book Content Ingestion with Gemini
+
+## /ask
+**GET /ask**
+```
+Summary: Ask a question about the book content
+Description: Retrieves relevant book content and generates a response based on it using Gemini API
+OperationID: askQuestion
+```
+
+**Request Parameters:**
+```
+{
+  "question": {
+    "type": "string",
+    "required": true,
+    "description": "The question to ask about the book content"
+  }
+}
+```
+
+**Response (200 OK):**
+```
+{
+  "answer": {
+    "type": "string",
+    "description": "The answer to the question based on book content using Gemini API"
+  },
+  "source_chunks": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "text": {"type": "string"},
+        "source_url": {"type": "string"},
+        "page_path": {"type": "string"},
+        "confidence": {"type": "number"}
+      }
+    }
+  },
+  "confidence_score": {
+    "type": "number",
+    "description": "Confidence in the answer's accuracy (0-1)"
+  },
+  "accuracy_score": {
+    "type": "number",
+    "description": "Accuracy of the response (>0.95 target)"
+  }
+}
+```
+
+---
+
+## /ask-selected
+**POST /ask-selected**
+```
+Summary: Ask a question constrained to selected text
+Description: Generates a response using Gemini API constrained to specific book text provided by the user
+OperationID: askQuestionFromSelected
+```
+
+**Request Body:**
+```
+{
+  "question": {
+    "type": "string",
+    "required": true,
+    "description": "The question to ask about the selected text"
+  },
+  "selected_text": {
+    "type": "string",
+    "required": true,
+    "description": "The specific text to constrain the answer to"
+  }
+}
+```
+
+**Response (200 OK):**
+```
+{
+  "answer": {
+    "type": "string",
+    "description": "The answer to the question based on the selected text only using Gemini API"
+  },
+  "source_chunks": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "text": {"type": "string"},
+        "source_url": {"type": "string"},
+        "page_path": {"type": "string"},
+        "confidence": {"type": "number"}
+      }
+    }
+  },
+  "confidence_score": {
+    "type": "number",
+    "description": "Confidence in the answer's accuracy (0-1)"
+  },
+  "accuracy_score": {
+    "type": "number",
+    "description": "Accuracy of the response (>0.95 target)"
+  }
+}
+```
+
+---
+
+## /health
+**GET /health**
+```
+Summary: Check system health
+Description: Verifies that the system is operational and connected to Qdrant and Gemini APIs
+OperationID: checkHealth
+```
+
+**Response (200 OK):**
+```
+{
+  "status": {
+    "type": "string",
+    "enum": ["healthy", "degraded", "unhealthy"]
+  },
+  "qdrant_connected": {
+    "type": "boolean",
+    "description": "Whether the system is connected to Qdrant"
+  },
+  "qdrant_collection_exists": {
+    "type": "boolean",
+    "description": "Whether the expected Qdrant collection exists"
+  },
+  "gemini_connected": {
+    "type": "boolean",
+    "description": "Whether the system can access Gemini API"
+  },
+  "timestamp": {
+    "type": "string",
+    "format": "date-time"
+  }
+}
+```
+
+---
+
+## /ingest
+**POST /ingest**
+```
+Summary: Ingest book content
+Description: Fetches content from the Docusaurus book URL, chunks it, generates embeddings using Gemini API, and stores in Qdrant
+OperationID: ingestBookContent
+```
+
+**Request Body:**
+```
+{
+  "book_url": {
+    "type": "string",
+    "required": true,
+    "description": "The URL of the deployed Docusaurus book to ingest"
+  },
+  "chunk_size": {
+    "type": "integer",
+    "default": 400,
+    "description": "Target size for text chunks in tokens (300-500 range)"
+  },
+  "reindex": {
+    "type": "boolean",
+    "default": false,
+    "description": "Whether to clear existing content and reindex"
+  }
+}
+```
+
+**Response (200 OK):**
+```
+{
+  "status": {
+    "type": "string",
+    "enum": ["success", "partial", "failed"]
+  },
+  "chunks_processed": {
+    "type": "integer",
+    "description": "Number of text chunks successfully processed"
+  },
+  "chunks_stored": {
+    "type": "integer",
+    "description": "Number of chunks successfully stored in Qdrant"
+  },
+  "processing_time": {
+    "type": "number",
+    "description": "Time taken to process the ingestion in seconds"
+  },
+  "accuracy_score": {
+    "type": "number",
+    "description": "Accuracy achieved during ingestion (>0.95 target)"
+  },
+  "error_message": {
+    "type": "string",
+    "description": "Error message if ingestion failed"
+  }
+}
+```

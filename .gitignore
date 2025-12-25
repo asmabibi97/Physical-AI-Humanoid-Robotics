@@ -1,32 +1,82 @@
-# Dependencies
-/node_modules
-
-# Production
-/build
-
-# Generated files
-.docusaurus
-.cache-loader
-
-# Misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Node
-dist/
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
 *.log
-.env*
+.git-blame-ignore-revs
+.hypothesis/
 
-# Universal
-Thumbs.db
-*.tmp
-*.swp
+# Environment
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Local configuration files
+.pytest_cache/
+.pyre/
+.mypy_cache/
+__pycache__/
+*.so
+
+# IDE
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Secrets
+.env
+.env.local
+.env.*.local
+*.env
+src/.env
+
+# Backend (deployed separately to Railway)
+backend/
+backend/node_modules/
+backend/.env.example
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
+# Other modules and temp files
+node_modules/
+nul
+"D\357\200\272it"
+
+# Temporary and generated files
+.claude/settings.local.json
+.docusaurus/
+.qwen/
+cliclaude-codemy-websitebackendtest_integration.py
+codegemini
