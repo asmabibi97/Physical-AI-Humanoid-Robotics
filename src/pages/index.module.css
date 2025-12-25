@@ -21,3 +21,73 @@
   align-items: center;
   justify-content: center;
 }
+
+.modulesSection {
+  padding: 4rem 0;
+  background-color: #f9fafb;
+}
+
+.chatbotSection {
+  padding: 4rem 0;
+  background-color: #ffffff;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.sectionDescription {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  color: #6b7280;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.modulesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.chatbotContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 996px) {
+  .modulesSection {
+    padding: 2rem 0;
+  }
+
+  .chatbotSection {
+    padding: 2rem 0;
+  }
+
+  .modulesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .modulesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
+
+  .chatbotContainer {
+    margin: 0 1rem;
+  }
+}

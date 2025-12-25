@@ -1,0 +1,71 @@
+/* Module Widget Component Styles */
+
+.module-widget-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.module-widget-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+}
+
+.module-widget-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  border-color: #3b82f6;
+}
+
+.module-widget-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 0.5rem 0;
+}
+
+.module-widget-description {
+  color: #6b7280;
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.module-subchapters {
+  margin-top: 1rem;
+}
+
+.subchapters-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4b5563;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+}
+
+.subchapters-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.subchapter-item {
+  padding: 0.25rem 0;
+  color: #6b7280;
+  font-size: 0.875rem;
+  border-left: 2px solid #e5e7eb;
+  padding-left: 0.5rem;
+  margin-left: 0.25rem;
+}
+
+.subchapter-item:first-child {
+  padding-top: 0;
+}
+
+.subchapter-item:last-child {
+  padding-bottom: 0;
+}
