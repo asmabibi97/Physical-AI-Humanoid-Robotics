@@ -1,0 +1,292 @@
+openapi: 3.0.0
+info:
+  title: RAG Chatbot Backend API
+  description: API for Retrieval-Augmented Generation chatbot that connects to Qdrant Cloud, ingests Docusaurus book content, and provides intelligent question answering
+  version: 1.0.0
+servers:
+  - url: https://asmabibi123-rag-chatbot.hf.space
+    description: Hugging Face Space deployment
+paths:
+  /health:
+    get:
+      summary: Health check endpoint
+      description: Check system health and connectivity to Qdrant and Gemini services
+      responses:
+        '200':
+          description: Health status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy, degraded, unhealthy]
+                    description: Overall system status
+                  qdrant_connected:
+                    type: boolean
+                    description: Whether Qdrant service is accessible
+                  qdrant_collection_exists:
+                    type: boolean
+                    description: Whether the expected Qdrant collection exists
+                  gemini_connected:
+                    type: boolean
+                    description: Whether Gemini API is accessible
+                  qdrant_host:
+                    type: string
+                    description: Qdrant service host
+                  collection_name:
+                    type: string
+                    description: Name of the Qdrant collection
+                  timestamp:
+                    type: string
+                    format: date-time
+                    description: When the check was performed
+        '500':
+          description: Health check failed
+  /chat:
+    post:
+      summary: Chat endpoint for asking questions
+      description: Accept user question and return AI-generated answer based on indexed content
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - question
+              properties:
+                question:
+                  type: string
+                  description: The question to ask about the book content
+                  example: "What are the main concepts covered in this book?"
+                top_k:
+                  type: integer
+                  minimum: 1
+                  maximum: 20
+                  default: 5
+                  description: Number of results to return
+      responses:
+        '200':
+          description: Answer to the question
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - answer
+                  - source_chunks
+                  - confidence_score
+                  - accuracy_score
+                properties:
+                  answer:
+                    type: string
+                    description: The AI-generated answer to the question
+                  source_chunks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BookContentChunk'
+                    description: List of chunks that informed the answer
+                  confidence_score:
+                    type: number
+                    format: float
+                    minimum: 0
+                    maximum: 1
+                    description: Confidence in the answer's accuracy
+                  accuracy_score:
+                    type: number
+                    format: float
+                    minimum: 0
+                    maximum: 1
+                    description: Accuracy of the response (targeting >0.95)
+        '400':
+          description: Invalid request
+        '500':
+          description: Error processing question
+  /ask:
+    get:
+      summary: Ask a question about book content
+      description: Ask a question and get an answer based on the book content
+      parameters:
+        - name: question
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The question to ask about the book content
+        - name: top_k
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 20
+            default: 5
+          description: Number of results to return
+      responses:
+        '200':
+          description: Answer to the question
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Invalid request
+        '500':
+          description: Error processing question
+  /ask-selected:
+    post:
+      summary: Ask about selected text
+      description: Ask a question constrained to selected text, generating a response based only on the provided text
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - question
+                - selected_text
+              properties:
+                question:
+                  type: string
+                  description: The question to ask about the selected text
+                selected_text:
+                  type: string
+                  description: The text to constrain the answer to
+      responses:
+        '200':
+          description: Answer to the question
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Invalid request
+        '500':
+          description: Error processing question
+  /ingest:
+    post:
+      summary: Ingest book content
+      description: Fetch content from Docusaurus book URL, chunk it, generate embeddings, and store in Qdrant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - book_url
+              properties:
+                book_url:
+                  type: string
+                  format: uri
+                  description: URL of the Docusaurus book to ingest
+                chunk_size:
+                  type: integer
+                  default: 400
+                  description: Target size for text chunks in tokens
+                reindex:
+                  type: boolean
+                  default: false
+                  description: Whether to reindex existing content
+      responses:
+        '200':
+          description: Ingestion completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  processed_chunks:
+                    type: integer
+                  accuracy_score:
+                    type: number
+                    format: float
+        '400':
+          description: Invalid request
+        '500':
+          description: Error during ingestion
+  /stats:
+    get:
+      summary: Get system statistics
+      description: Get information about the Qdrant collection and indexed content
+      responses:
+        '200':
+          description: System statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vector_size:
+                    type: integer
+                    description: Dimension of embedding vectors
+                  distance:
+                    type: string
+                    description: Distance metric used for similarity search
+                  point_count:
+                    type: integer
+                    description: Number of vectors stored in Qdrant
+                  total_chunks:
+                    type: integer
+                    description: Total number of content chunks indexed
+        '500':
+          description: Error retrieving statistics
+components:
+  schemas:
+    BookContentChunk:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the chunk
+        text_content:
+          type: string
+          description: The actual text content of the chunk
+        source_url:
+          type: string
+          description: URL where this content originates
+        page_path:
+          type: string
+          description: Relative path of the page in the Docusaurus book
+        chunk_index:
+          type: integer
+          description: Position of this chunk within the page
+        score:
+          type: number
+          format: float
+          description: Relevance score from similarity search
+    QueryResponse:
+      type: object
+      required:
+        - answer
+        - source_chunks
+        - confidence_score
+        - accuracy_score
+      properties:
+        answer:
+          type: string
+          description: The AI-generated answer to the question
+        source_chunks:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookContentChunk'
+          description: List of chunks that informed the answer
+        confidence_score:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          description: Confidence in the answer's accuracy
+        accuracy_score:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          description: Accuracy of the response (targeting >0.95)

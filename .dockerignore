@@ -17,7 +17,6 @@ nosetests.xml
 coverage.xml
 *.cover
 *.log
-.git-blame-ignore-revs
 .hypothesis/
 
 # Environment
@@ -32,8 +31,6 @@ venv.bak/
 .pytest_cache/
 .pyre/
 .mypy_cache/
-__pycache__/
-*.so
 
 # IDE
 .vscode/
@@ -57,26 +54,12 @@ desktop.ini
 .env.local
 .env.*.local
 *.env
-src/.env
-
-# Backend (deployed separately to Railway)
-backend/
-backend/node_modules/
-backend/.env.example
 
 # Build outputs
 dist/
 build/
 *.egg-info/
 
-# Other modules and temp files
-node_modules/
-nul
-"D\357\200\272it"
-
-# Temporary and generated files
-.claude/settings.local.json
-.docusaurus/
-.qwen/
-cliclaude-codemy-websitebackendtest_integration.py
-codegemini
+# Git
+.git/
+.gitignore

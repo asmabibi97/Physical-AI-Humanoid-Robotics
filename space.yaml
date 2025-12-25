@@ -1,0 +1,5 @@
+compute: cpu
+title: RAG Chatbot Backend with Qdrant
+emoji: 🤖
+color: blue
+sdk: docker
