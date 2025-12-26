@@ -6,6 +6,7 @@ const ChatbotWidget = () => {
   const [input, setInput] = useState('');
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // Track if chatbot is open
 
   // Load stats on component mount
   useEffect(() => {
@@ -159,59 +160,73 @@ const ChatbotWidget = () => {
   };
 
   return (
-    <div className={styles.chatbotContainer}>
-      <div className={styles.header}>
-        <h3>Book Chatbot</h3>
-        {stats && (
-          <div className={styles.stats}>
-            <span>Chunks: {stats.total_chunks}</span>
-          </div>
+    <div className={`${styles.chatbotContainer} ${isOpen ? styles.open : ''}`} onClick={(e) => e.stopPropagation()}>
+      {/* Chatbot toggle button */}
+      <div className={styles.chatbotToggle} onClick={() => setIsOpen(!isOpen)}>
+        <div className={styles.chatbotIcon}>💬</div>
+        {isOpen && (
+          <div className={styles.chatbotTitle}>Book Chatbot</div>
         )}
       </div>
 
-      <div className={styles.messageHistory}>
-        {messages.map((msg, index) => (
-          <div key={index} className={`${styles.message} ${styles[msg?.sender || 'user']}`}>
-            <strong>{msg?.sender || 'User'}:</strong> {msg?.text || ''}
-            {msg.sources && msg.sources.length > 0 && (
-              <details className={styles.sources}>
-                <summary>Sources</summary>
-                {msg.sources.map((source, idx) => (
-                  <div key={idx} className={styles.source}>
-                    <a href={source?.source_url || '#'} target="_blank" rel="noopener noreferrer">
-                      {source?.page_path || 'Source'}
-                    </a>
-                    <p>{source?.text_content ? source.text_content.substring(0, 100) + '...' : 'No content available'}</p>
-                  </div>
-                ))}
-              </details>
+      {/* Chatbot content - only show when open */}
+      {isOpen && (
+        <div className={styles.chatbotContent}>
+          <div className={styles.header}>
+            <h3>Book Chatbot</h3>
+            <button className={styles.closeButton} onClick={() => setIsOpen(false)}>×</button>
+            {stats && (
+              <div className={styles.stats}>
+                <span>Chunks: {stats.total_chunks}</span>
+              </div>
             )}
           </div>
-        ))}
-      </div>
 
-      <div className={styles.inputArea}>
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-          placeholder="Ask a question about the book..."
-          disabled={loading}
-        />
-        <button onClick={handleSend} disabled={loading}>
-          {loading ? 'Sending...' : 'Send'}
-        </button>
-      </div>
+          <div className={styles.messageHistory}>
+            {messages.map((msg, index) => (
+              <div key={index} className={`${styles.message} ${styles[msg?.sender || 'user']}`}>
+                <strong>{msg?.sender || 'User'}:</strong> {msg?.text || ''}
+                {msg.sources && msg.sources.length > 0 && (
+                  <details className={styles.sources}>
+                    <summary>Sources</summary>
+                    {msg.sources.map((source, idx) => (
+                      <div key={idx} className={styles.source}>
+                        <a href={source?.source_url || '#'} target="_blank" rel="noopener noreferrer">
+                          {source?.page_path || 'Source'}
+                        </a>
+                        <p>{source?.text_content ? source.text_content.substring(0, 100) + '...' : 'No content available'}</p>
+                      </div>
+                    ))}
+                  </details>
+                )}
+              </div>
+            ))}
+          </div>
 
-      <div className={styles.adminControls}>
-        <button onClick={handleIngest} disabled={loading}>
-          {loading ? 'Processing...' : 'Ingest Book Content'}
-        </button>
-        <button onClick={fetchStats} disabled={loading}>
-          Refresh Stats
-        </button>
-      </div>
+          <div className={styles.inputArea}>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+              placeholder="Ask a question about the book..."
+              disabled={loading}
+            />
+            <button onClick={handleSend} disabled={loading}>
+              {loading ? 'Sending...' : 'Send'}
+            </button>
+          </div>
+
+          <div className={styles.adminControls}>
+            <button onClick={handleIngest} disabled={loading}>
+              {loading ? 'Processing...' : 'Ingest Book Content'}
+            </button>
+            <button onClick={fetchStats} disabled={loading}>
+              Refresh Stats
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
